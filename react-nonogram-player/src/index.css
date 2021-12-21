@@ -6,20 +6,22 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+:root {
+  --square-size: 4rem;
+}
+
+.square {
+  height: var(--square-size);
+  width: var(--square-size);
+  display: inline-block;
+  user-select: none;
+  margin-bottom: -4px;
 }
 
 .filled-square {
-  height: 50px;
-  width: 50px;
-  display: inline-block;
   background-color: black;
 }
 
 .empty-square {
-  height: 50px;
-  width: 50px;
-  display: inline-block;
   background-color: grey;
 }
