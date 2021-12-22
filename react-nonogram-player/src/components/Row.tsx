@@ -1,16 +1,18 @@
 import Square from "./Square"
 
-type Row = {
-  row: Array<boolean>,
+type RowProps = {
+  row: Array<number>,
   rowIndex: number,
-  handleClick: (row : number, column : number) => void
+  handleInput: (button: number, row : number, column : number) => void,
+  onHover: (row : number, column : number) => void,
+  onMouseUp: () => void
 }
 
-const Row = ({row, rowIndex, handleClick} : Row) => {
+const Row = ({row, rowIndex, handleInput, onHover, onMouseUp} : RowProps) => {
   return (
     <div>
       {row.map((square, columnIndex) => (
-        <span onMouseDown={() => {handleClick(rowIndex, columnIndex)}}>
+        <span onContextMenu={(e)=> e.preventDefault()} onMouseDown={(e) => {handleInput(e.button, rowIndex, columnIndex)}} onMouseUp={() => {onMouseUp()}} onMouseOver={() => {onHover(rowIndex, columnIndex)}}>
           <Square key={columnIndex} value={square} />
         </span>
       ))}

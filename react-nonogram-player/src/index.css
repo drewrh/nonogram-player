@@ -25,3 +25,11 @@ body {
 .empty-square {
   background-color: grey;
 }
+
+.marked-square {
+  background-color: red;
+}
+
+.error-square {
+  background-color: purple;
+}
