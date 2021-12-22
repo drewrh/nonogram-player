@@ -8,6 +8,16 @@ body {
 
 :root {
   --square-size: 4rem;
+  --board-border-color: grey;
+}
+
+.board {
+  background-color: var(--board-border-color);
+  width: fit-content;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--board-border-color);
+  border-radius: 4px;
 }
 
 .square {
@@ -16,18 +26,23 @@ body {
   display: inline-block;
   user-select: none;
   margin-bottom: -4px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: var(--board-border-color);
+  border-radius: 4px;
+  background-color: white;
 }
 
-.filled-square {
-  background-color: black;
+.cell-fill {
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  width: var(--square-size);
 }
 
-.empty-square {
-  background-color: grey;
-}
-
-.marked-square {
-  background-color: red;
+.x-mark {
+  stroke: red;
+  stroke-width: 5px;
 }
 
 .error-square {

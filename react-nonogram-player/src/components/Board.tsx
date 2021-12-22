@@ -1,11 +1,36 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { isNewExpression } from "typescript"
 import Row from "./Row"
 
-const Board = () => {
-  const [size, setSize] = useState(5)
-  const [rows, setRows] = useState(new Array(size).fill(0).map(() => new Array(size).fill(0)))
+type BoardProps = {
+  numRows: number,
+  numColumns: number
+}
+
+const Board = ({numRows, numColumns}: BoardProps) => {
+  const [rows, setRows] = useState(new Array(numRows).fill(0).map(() => new Array(numColumns + 1).fill(0)))
   const [leftMouseDown, setLeftMouseDown] = useState(false)
   const [rightMouseDown, setRightMouseDown] = useState(false)
+
+  useEffect(() => {
+    const newRows = [...rows]
+    if (numRows > rows.length) {
+      newRows.push(new Array(numColumns).fill(0))
+    } else {
+      newRows.pop()
+    }
+    setRows(newRows)
+  }, [numRows])
+
+  useEffect(() => {
+    const newRows = [...rows]
+    if (numColumns > rows[0].length) {
+      newRows.forEach(row => row.push(0))
+    } else {
+      newRows.forEach(row => row.pop())
+    }
+    setRows(newRows)
+  }, [numColumns])
 
   const handleInput = (button: number, rowIndex: number, columnIndex: number) => {    
     if (button === 0) {
@@ -21,8 +46,12 @@ const Board = () => {
       newRows[rowIndex][columnIndex] = 1
     } else if (button === 0 && value === 1) {
       newRows[rowIndex][columnIndex] = 0
-    } else if (button === 2) {
+    }
+    
+    if (button === 2 && (value === 0 || value === 1)) {
       newRows[rowIndex][columnIndex] = 2
+    } else if (button === 2 && value === 2) {
+      newRows[rowIndex][columnIndex] = 0
     }
 
     setRows(newRows)
@@ -42,7 +71,7 @@ const Board = () => {
   }
 
   return (
-    <div>
+    <div className="board">
       {rows.map((row, index) => (
         <Row key={index} row={row} rowIndex={index} handleInput={handleInput} onHover={onHover} onMouseUp={onMouseUp} />
       ))}
