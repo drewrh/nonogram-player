@@ -11,7 +11,7 @@ const Game = () => {
 
   return (
     <div>
-      <Controls numRows={numRows} numColumns={numColumns} changeNumRows={changeNumRows} changeNumColumns={changeNumColumns} />
+      {/* <Controls numRows={numRows} numColumns={numColumns} changeNumRows={changeNumRows} changeNumColumns={changeNumColumns} /> */}
       <Board numRows={numRows} numColumns={numColumns} />
     </div>
   )

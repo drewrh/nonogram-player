@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react"
-import { isNewExpression } from "typescript"
 import Row from "./Row"
 
 type BoardProps = {
@@ -11,6 +10,9 @@ const Board = ({numRows, numColumns}: BoardProps) => {
   const [rows, setRows] = useState(new Array(numRows).fill(0).map(() => new Array(numColumns + 1).fill(0)))
   const [leftMouseDown, setLeftMouseDown] = useState(false)
   const [rightMouseDown, setRightMouseDown] = useState(false)
+
+  const [rowNums, setRowNums] = useState([[2], [2, 1], [1, 1], [3], [1, 1, 1]])
+  const [columnNums, setColumnNums] = useState([[4], [1, 1], [2], [2], [1, 1, 1]])
 
   useEffect(() => {
     const newRows = [...rows]
@@ -71,10 +73,28 @@ const Board = ({numRows, numColumns}: BoardProps) => {
   }
 
   return (
-    <div className="board">
-      {rows.map((row, index) => (
-        <Row key={index} row={row} rowIndex={index} handleInput={handleInput} onHover={onHover} onMouseUp={onMouseUp} />
-      ))}
+    <div className="board-nums">
+      <div className="row-nums">
+        {rowNums.map((row) => (
+          <div className="row-nums-list alternating-color">
+            {row.map((number) => <div key={number.toString()}>{number}</div>)}
+          </div>
+        ))}
+      </div>
+      <div>
+        <div className="column-nums">
+          {columnNums.map((row) => (
+            <div className="column-nums-list alternating-color">
+              {row.map((number) => <div key={number.toString()}>{number}</div>)}
+            </div>
+          ))}
+        </div>
+        <div className="board">
+          {rows.map((row, index) => (
+            <Row key={index} row={row} rowIndex={index} handleInput={handleInput} onHover={onHover} onMouseUp={onMouseUp} />
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
