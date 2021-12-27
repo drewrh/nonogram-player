@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap");
+
 * {
   box-sizing: border-box;
   /* border-radius: 8px; */
@@ -16,7 +18,7 @@ body {
 }
 
 :root {
-  --square-size: 5rem;
+  --square-size: 3rem;
   --board-border-color: grey;
   --board-border-size: 2px;
   --alternating-color: rgb(243, 239, 239);
@@ -24,6 +26,7 @@ body {
 
 .board-nums {
   display: flex;
+  /* margin-left: -25vh; */
 }
 
 .board {
@@ -55,6 +58,11 @@ body {
   border: var(--board-border-size) solid var(--board-border-color);
 }
 
+.alternating-color {
+  font-size: calc(var(--square-size) - 1rem);
+  font-family: "Orbitron", sans-serif;
+}
+
 .alternating-color:nth-child(odd) {
   background-color: var(--alternating-color);
 }
@@ -62,6 +70,7 @@ body {
 .column-nums {
   display: flex;
   justify-content: space-between;
+  height: 25vh;
 }
 
 .column-nums-list {
@@ -84,6 +93,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: end;
+  width: 25vh;
 }
 
 .row-nums-list {
@@ -105,4 +115,12 @@ body {
   height: calc(var(--square-size));
   box-sizing: content-box;
   border-bottom: var(--board-border-size) solid rgba(0, 0, 0, 0);
+}
+
+.test:not(:last-child) {
+  margin-right: 1rem;
+}
+
+.test:last-child {
+  margin-right: 0.5rem;
 }

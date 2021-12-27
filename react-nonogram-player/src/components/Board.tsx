@@ -77,7 +77,7 @@ const Board = ({numRows, numColumns}: BoardProps) => {
       <div className="row-nums">
         {rowNums.map((row) => (
           <div className="row-nums-list alternating-color">
-            {row.map((number) => <div key={number.toString()}>{number}</div>)}
+            {row.map((number) => <div className="test" key={number.toString()}>{number}</div>)}
           </div>
         ))}
       </div>
