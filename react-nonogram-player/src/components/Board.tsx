@@ -66,7 +66,7 @@ const Board = ({numRows, numColumns}: BoardProps) => {
 
   useEffect(() => {
     let col = (0.8 * window.innerWidth) / (rows[0].length + getMax(rowNums))
-    let row = (window.innerHeight) / (rows.length + getMax(columnNums))
+    let row = (0.95 * window.innerHeight) / (rows.length + getMax(columnNums))
 
     if (col < row) {
       document.documentElement.style.setProperty('--square-size', col + 'px');
