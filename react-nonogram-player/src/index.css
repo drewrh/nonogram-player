@@ -2,7 +2,11 @@
 
 * {
   box-sizing: border-box;
-  /* border-radius: 8px; */
+  border-radius: 8px;
+}
+
+html {
+  min-height: 100%;
 }
 
 body {
@@ -15,22 +19,40 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);
 }
 
 :root {
   --square-size: 5vw;
-  --board-border-color: grey;
+  --board-border-color: rgb(102, 102, 102);
   --board-border-size: 2px;
-  --alternating-color: rgb(243, 239, 239);
+  --alternating-color: rgb(242, 242, 242);
+}
+
+.game {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.menu-container {
+  height: 100%;
+  min-width: calc(2.5 * var(--square-size));
 }
 
 .menu {
-  height: 100%;
+  background-color: rgb(51, 51, 51);
+  width: 95%;
+  height: 90%;
 }
 
 .board-nums {
   display: flex;
-  margin-top: 100px;
+  /* margin-top: 100px; */
+  border: 10px solid white;
+  background-color: white;
 }
 
 .board {
@@ -49,7 +71,8 @@ body {
   width: var(--square-size);
   user-select: none;
   background-color: white;
-  border: var(--board-border-size) solid var(--board-border-color);
+  border: calc(var(--square-size) / 20) solid var(--board-border-color);
+  border-radius: calc(var(--square-size) / 8);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -59,7 +82,8 @@ body {
   pointer-events: none;
   width: var(--square-size);
   height: var(--square-size);
-  border: var(--board-border-size) solid var(--board-border-color);
+  border: calc(var(--square-size) / 20) solid var(--board-border-color);
+  border-radius: calc(var(--square-size) / 8);
 }
 
 .alternating-color {
@@ -70,6 +94,10 @@ body {
 .alternating-color:nth-child(odd) {
   background-color: var(--alternating-color);
 }
+
+/* .alternating-color:nth-child(even) {
+  background-color: white;
+} */
 
 .column-nums {
   display: flex;

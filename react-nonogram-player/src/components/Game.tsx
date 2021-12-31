@@ -10,7 +10,7 @@ const Game = () => {
   const changeNumColumns = (event: any) => {setNumColumns(parseInt(event.target.value))}
 
   return (
-    <div>
+    <div className="game">
       {/* <Controls numRows={numRows} numColumns={numColumns} changeNumRows={changeNumRows} changeNumColumns={changeNumColumns} /> */}
       <Board numRows={numRows} numColumns={numColumns} />
     </div>

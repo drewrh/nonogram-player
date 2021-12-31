@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import Menu from "./Menu"
 import Row from "./Row"
 
 type BoardProps = {
@@ -65,7 +66,7 @@ const Board = ({numRows, numColumns}: BoardProps) => {
 
   useEffect(() => {
     let col = (0.8 * window.innerWidth) / (rows[0].length + getMax(rowNums))
-    let row = (0.8 * window.innerHeight) / (rows.length + getMax(columnNums))
+    let row = (window.innerHeight) / (rows.length + getMax(columnNums))
 
     if (col < row) {
       document.documentElement.style.setProperty('--square-size', col + 'px');
@@ -139,7 +140,9 @@ const Board = ({numRows, numColumns}: BoardProps) => {
   return (
     <div className="board-nums">
       <div className="row-nums">
-        <div className="menu"></div>
+        <div className="menu-container">
+          <Menu />
+        </div>
         <div>
           {rowNums.map((row, i) => (
           <div key={i} className="row-nums-list alternating-color">
