@@ -17,55 +17,90 @@ const Board = ({numRows, numColumns}: BoardProps) => {
   const [leftMouseDown, setLeftMouseDown] = useState(false)
   const [rightMouseDown, setRightMouseDown] = useState(false)
 
-  const [rowNums, setRowNums] = useState([[2], [2, 1], [1, 1], [3], [1, 1, 1]])
-  const [columnNums, setColumnNums] = useState([[4], [1, 1], [2], [2], [1, 1, 1]])
+  const [rowNums, setRowNums] = useState<Array<Array<number>>>([[]])
+  const [columnNums, setColumnNums] = useState<Array<Array<number>>>([[]])
   const size: Size = useWindowSize();
 
+  useEffect(() => {
+    let newRowNums = []
+    let newRows: any = []
+    for (let i = 0; i < numRows; i++) {
+      let randomRowNums = []
+      let randomRow = []
+      let count = 0
+      for (let j = 0; j < numColumns; j++) {
+        if (Math.random() < 0.5) {
+          count++
+          randomRow.push(1)
+        } else {
+          if (count != 0) {randomRowNums.push(count)}
+          count = 0
+          randomRow.push(0)
+        }
+      }
+      if (count != 0) {randomRowNums.push(count)}
+      if (randomRowNums.length == 0) {randomRowNums.push(0)}
+      newRowNums.push(randomRowNums)
+      newRows.push(randomRow)
+    }
+    
+    let newCols = newRows[0].map((col: any, i: any) => newRows.map((row:any) => row[i]))
+    let newColNums = []
+    for (let i = 0; i < numColumns; i++) {
+      let randomColNums = []
+      let count = 0
+      for (let j = 0; j < numRows; j++) {
+        if (newCols[i][j] == 1) {
+          count++
+        } else {
+          if (count != 0) {randomColNums.push(count)}
+          count = 0
+        }
+      }
+      if (count != 0) {randomColNums.push(count)}
+      if (randomColNums.length == 0) {randomColNums.push(0)}
+      newColNums.push(randomColNums)
+    }
+
+    setRowNums(newRowNums)
+    setColumnNums(newColNums)
+  }, [])
+
   function getMax(array: any) {
-    let max = -Infinity;
-    let index = -1;
+    let max = -Infinity
+    let index = -1
     array.forEach(function(a: any, i: any){
       if (a.length > max) {
-        max = a.length;
-        index = i;
+        max = a.length
+        index = i
       }
-    });
+    })
     return max
   }
 
   function useWindowSize(): Size {
-    // Initialize state with undefined width/height so server and client renders match
-    // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
     const [windowSize, setWindowSize] = useState<Size>({
       width: undefined,
       height: undefined,
-    });
+    })
 
     useEffect(() => {
-      // Handler to call on window resize
       function handleResize() {
-        // Set window width/height to state
         setWindowSize({
           width: window.innerWidth,
           height: window.innerHeight,
-        });
+        })
       }
+      window.addEventListener("resize", handleResize)
+      handleResize()
+      return () => window.removeEventListener("resize", handleResize)
+    }, [])
 
-      // Add event listener
-      window.addEventListener("resize", handleResize);
-
-      // Call handler right away so state gets updated with initial window size
-      handleResize();
-
-      // Remove event listener on cleanup
-      return () => window.removeEventListener("resize", handleResize);
-    }, []); // Empty array ensures that effect is only run on mount
-
-    return windowSize;
+    return windowSize
   }
 
   useEffect(() => {
-    let col = (0.8 * window.innerWidth) / (rows[0].length + getMax(rowNums))
+    let col = (0.9 * window.innerWidth) / (rows[0].length + getMax(rowNums))
     let row = (0.95 * window.innerHeight) / (rows.length + getMax(columnNums))
 
     if (col < row) {

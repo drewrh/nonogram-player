@@ -50,7 +50,6 @@ body {
 
 .board-nums {
   display: flex;
-  /* margin-top: 100px; */
   border: 10px solid white;
   background-color: white;
 }
@@ -95,10 +94,6 @@ body {
   background-color: var(--alternating-color);
 }
 
-/* .alternating-color:nth-child(even) {
-  background-color: white;
-} */
-
 .column-nums {
   display: flex;
   justify-content: space-between;
@@ -110,16 +105,20 @@ body {
   text-align: center;
   justify-content: end;
   min-width: var(--square-size);
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 
 .column-nums-list:first-child {
   box-sizing: content-box;
   border-left: var(--board-border-size) solid rgba(0, 0, 0, 0);
+  border-bottom-left-radius: 8px;
 }
 
 .column-nums-list:last-child {
   box-sizing: content-box;
   border-right: var(--board-border-size) solid rgba(0, 0, 0, 0);
+  border-bottom-right-radius: 8px;
 }
 
 .row-nums {
@@ -136,16 +135,20 @@ body {
   justify-content: right;
   border-left: var(--board-border-size) solid rgba(0, 0, 0, 0);
   border-right: var(--board-border-size) solid rgba(0, 0, 0, 0);
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 
 .row-nums-list:first-child {
   box-sizing: content-box;
   border-top: var(--board-border-size) solid rgba(0, 0, 0, 0);
+  border-top-right-radius: 8px;
 }
 
 .row-nums-list:last-child {
   box-sizing: content-box;
   border-bottom: var(--board-border-size) solid rgba(0, 0, 0, 0);
+  border-bottom-right-radius: 8px;
 }
 
 .row-num:not(:last-child) {
