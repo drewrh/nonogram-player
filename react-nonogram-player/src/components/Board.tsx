@@ -190,7 +190,7 @@ const Board = ({numRows, numColumns}: BoardProps) => {
         <div className="column-nums">
           {columnNums.map((row, i) => (
             <div key={i} className="column-nums-list alternating-color">
-              {row.map((number, j) => <div key={j}>{number}</div>)}
+              {row.map((number, j) => <div className="column-num" key={j}>{number}</div>)}
             </div>
           ))}
         </div>

@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Source+Sans+Pro:wght@600&display=swap");
 
 * {
   box-sizing: border-box;
@@ -39,13 +40,33 @@ body {
 
 .menu-container {
   height: 100%;
-  min-width: calc(2.5 * var(--square-size));
 }
 
 .menu {
   background-color: rgb(51, 51, 51);
   width: 95%;
   height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+}
+
+.clock {
+  font-size: 5vmin;
+  font-weight: 600;
+  font-family: "Orbitron", sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
+  letter-spacing: 0.75vmin;
+}
+
+.title {
+  background-color: black;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  width: 80%;
+  text-align: center;
+  font-size: 3vmin;
 }
 
 .board-nums {
@@ -105,6 +126,7 @@ body {
   text-align: center;
   justify-content: end;
   min-width: var(--square-size);
+  min-height: 20vmin;
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
 }
@@ -121,6 +143,10 @@ body {
   border-bottom-right-radius: 8px;
 }
 
+.column-num {
+  min-height: calc(var(--square-size) / 2.5);
+}
+
 .row-nums {
   display: flex;
   flex-direction: column;
@@ -130,6 +156,7 @@ body {
 
 .row-nums-list {
   min-height: calc(var(--square-size));
+  min-width: 30vmin;
   display: flex;
   align-items: center;
   justify-content: right;
@@ -151,10 +178,7 @@ body {
   border-bottom-right-radius: 8px;
 }
 
-.row-num:not(:last-child) {
+.row-num {
   min-width: calc(var(--square-size) / 2.5);
-}
-
-.row-num:last-child {
-  min-width: calc(var(--square-size) / 5);
+  text-align: center;
 }
