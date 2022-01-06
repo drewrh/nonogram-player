@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import Menu from "./Menu"
 import Row from "./Row"
 
-type BoardProps = {
+interface BoardProps {
   numRows: number,
   numColumns: number
 }
@@ -23,7 +23,7 @@ const Board = ({numRows, numColumns}: BoardProps) => {
 
   useEffect(() => {
     let newRowNums = []
-    let newRows: any = []
+    let newRows: Array<Array<number>> = []
     for (let i = 0; i < numRows; i++) {
       let randomRowNums = []
       let randomRow = []
@@ -44,7 +44,7 @@ const Board = ({numRows, numColumns}: BoardProps) => {
       newRows.push(randomRow)
     }
     
-    let newCols = newRows[0].map((col: any, i: any) => newRows.map((row:any) => row[i]))
+    let newCols = newRows[0].map((col, i) => newRows.map((row) => row[i]))
     let newColNums = []
     for (let i = 0; i < numColumns; i++) {
       let randomColNums = []
@@ -65,18 +65,6 @@ const Board = ({numRows, numColumns}: BoardProps) => {
     setRowNums(newRowNums)
     setColumnNums(newColNums)
   }, [])
-
-  function getMax(array: any) {
-    let max = -Infinity
-    let index = -1
-    array.forEach(function(a: any, i: any){
-      if (a.length > max) {
-        max = a.length
-        index = i
-      }
-    })
-    return max
-  }
 
   function useWindowSize(): Size {
     const [windowSize, setWindowSize] = useState<Size>({
