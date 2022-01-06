@@ -1,4 +1,4 @@
-type ControlsProps = {
+interface ControlsProps {
   numRows: number,
   numColumns: number,
   changeNumRows: any,
