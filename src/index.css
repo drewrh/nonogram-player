@@ -124,7 +124,7 @@ body {
   display: flex;
   flex-direction: column;
   text-align: center;
-  justify-content: end;
+  justify-content: flex-end;
   min-width: var(--square-size);
   min-height: 20vmin;
   border-bottom-left-radius: 0px;
@@ -150,7 +150,7 @@ body {
 .row-nums {
   display: flex;
   flex-direction: column;
-  justify-content: end;
+  justify-content: flex-end;
   width: 100%;
 }
 
