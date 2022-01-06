@@ -33,13 +33,13 @@ const Board = ({numRows, numColumns}: BoardProps) => {
           count++
           randomRow.push(1)
         } else {
-          if (count != 0) {randomRowNums.push(count)}
+          if (count !== 0) {randomRowNums.push(count)}
           count = 0
           randomRow.push(0)
         }
       }
-      if (count != 0) {randomRowNums.push(count)}
-      if (randomRowNums.length == 0) {randomRowNums.push(0)}
+      if (count !== 0) {randomRowNums.push(count)}
+      if (randomRowNums.length === 0) {randomRowNums.push(0)}
       newRowNums.push(randomRowNums)
       newRows.push(randomRow)
     }
@@ -50,15 +50,15 @@ const Board = ({numRows, numColumns}: BoardProps) => {
       let randomColNums = []
       let count = 0
       for (let j = 0; j < numRows; j++) {
-        if (newCols[i][j] == 1) {
+        if (newCols[i][j] === 1) {
           count++
         } else {
-          if (count != 0) {randomColNums.push(count)}
+          if (count !== 0) {randomColNums.push(count)}
           count = 0
         }
       }
-      if (count != 0) {randomColNums.push(count)}
-      if (randomColNums.length == 0) {randomColNums.push(0)}
+      if (count !== 0) {randomColNums.push(count)}
+      if (randomColNums.length === 0) {randomColNums.push(0)}
       newColNums.push(randomColNums)
     }
 
