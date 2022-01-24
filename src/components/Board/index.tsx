@@ -1,16 +1,10 @@
+// index files are default exports in node.
+// put your main logic here and import as usual
+
 import { useState, useEffect } from "react"
-import Menu from "./Menu"
-import Row from "./Row"
-
-interface BoardProps {
-  numRows: number,
-  numColumns: number
-}
-
-interface Size {
-  width: number | undefined;
-  height: number | undefined;
-}
+import Menu from "../Menu"
+import Row from "../Row"
+import setRowsColumns from "./effects"
 
 const Board = ({numRows, numColumns}: BoardProps) => {
   const [rows, setRows] = useState(new Array(numRows).fill(0).map(() => new Array(numColumns).fill(0)))
@@ -21,49 +15,11 @@ const Board = ({numRows, numColumns}: BoardProps) => {
   const [columnNums, setColumnNums] = useState<Array<Array<number>>>([[]])
   const size: Size = useWindowSize();
 
+  // if you break your functions out into separate files, it makes
+  // the logic flow in the main section easier to follow and specific
+  // logic easier to test
   useEffect(() => {
-    let newRowNums = []
-    let newRows: Array<Array<number>> = []
-    for (let i = 0; i < numRows; i++) {
-      let randomRowNums = []
-      let randomRow = []
-      let count = 0
-      for (let j = 0; j < numColumns; j++) {
-        if (Math.random() < 0.5) {
-          count++
-          randomRow.push(1)
-        } else {
-          if (count !== 0) {randomRowNums.push(count)}
-          count = 0
-          randomRow.push(0)
-        }
-      }
-      if (count !== 0) {randomRowNums.push(count)}
-      if (randomRowNums.length === 0) {randomRowNums.push(0)}
-      newRowNums.push(randomRowNums)
-      newRows.push(randomRow)
-    }
-    
-    let newCols = newRows[0].map((col, i) => newRows.map((row) => row[i]))
-    let newColNums = []
-    for (let i = 0; i < numColumns; i++) {
-      let randomColNums = []
-      let count = 0
-      for (let j = 0; j < numRows; j++) {
-        if (newCols[i][j] === 1) {
-          count++
-        } else {
-          if (count !== 0) {randomColNums.push(count)}
-          count = 0
-        }
-      }
-      if (count !== 0) {randomColNums.push(count)}
-      if (randomColNums.length === 0) {randomColNums.push(0)}
-      newColNums.push(randomColNums)
-    }
-
-    setRowNums(newRowNums)
-    setColumnNums(newColNums)
+    setRowsColumns(setRowNums, setColumnNums, numRows, numColumns)
   }, [])
 
   function useWindowSize(): Size {
