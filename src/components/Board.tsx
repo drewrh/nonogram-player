@@ -22,11 +22,11 @@ const Board = ({numRows, numColumns}: BoardProps) => {
   const size: Size = useWindowSize();
 
   useEffect(() => {
-    let newRowNums = []
-    let newRows: Array<Array<number>> = []
+    const newRowNums = []
+    const newRows: Array<Array<number>> = []
     for (let i = 0; i < numRows; i++) {
-      let randomRowNums = []
-      let randomRow = []
+      const randomRowNums = []
+      const randomRow = []
       let count = 0
       for (let j = 0; j < numColumns; j++) {
         if (Math.random() < 0.5) {
@@ -44,10 +44,10 @@ const Board = ({numRows, numColumns}: BoardProps) => {
       newRows.push(randomRow)
     }
     
-    let newCols = newRows[0].map((col, i) => newRows.map((row) => row[i]))
-    let newColNums = []
+    const newCols = newRows[0].map((col, i) => newRows.map((row) => row[i]))
+    const newColNums = []
     for (let i = 0; i < numColumns; i++) {
-      let randomColNums = []
+      const randomColNums = []
       let count = 0
       for (let j = 0; j < numRows; j++) {
         if (newCols[i][j] === 1) {
@@ -88,8 +88,8 @@ const Board = ({numRows, numColumns}: BoardProps) => {
   }
 
   useEffect(() => {
-    let col = (0.9 * window.innerWidth - Math.min(0.3 * window.innerHeight, 0.3 * window.innerWidth)) / (rows[0].length)
-    let row = (0.9 * window.innerHeight - Math.min(0.2 * window.innerHeight, 0.2 * window.innerWidth)) / (rows.length)
+    const col = (0.9 * window.innerWidth - Math.min(0.3 * window.innerHeight, 0.3 * window.innerWidth)) / (rows[0].length)
+    const row = (0.9 * window.innerHeight - Math.min(0.2 * window.innerHeight, 0.2 * window.innerWidth)) / (rows.length)
 
     if (col < row) {
       document.documentElement.style.setProperty('--square-size', col + 'px');
@@ -130,7 +130,7 @@ const Board = ({numRows, numColumns}: BoardProps) => {
     }
     
     const newRows = [...rows]
-    let value = rows[rowIndex][columnIndex]
+    const value = rows[rowIndex][columnIndex]
 
     if (button === 0 && (value === 0 || value === 2)) {
       newRows[rowIndex][columnIndex] = 1
