@@ -1,10 +1,3 @@
-interface ControlsProps {
-  numRows: number,
-  numColumns: number,
-  changeNumRows: any,
-  changeNumColumns: any
-}
-
 const Controls = ({numRows, numColumns, changeNumRows, changeNumColumns}: ControlsProps) => {
   return (
     <div>

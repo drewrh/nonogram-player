@@ -1,10 +1,6 @@
 import markedCell from "../images/marked-cell.svg"
 import filledCell from "../images/filled-cell.svg"
 
-interface Square {
-  value: number
-}
-
 const Square = ({value} : Square) => {
   if (value == 0) {
     return (<div className="square"></div>)

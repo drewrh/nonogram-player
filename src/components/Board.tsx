@@ -2,16 +2,6 @@ import { useState, useEffect } from "react"
 import Menu from "./Menu"
 import Row from "./Row"
 
-interface BoardProps {
-  numRows: number,
-  numColumns: number
-}
-
-interface Size {
-  width: number | undefined;
-  height: number | undefined;
-}
-
 const Board = ({numRows, numColumns}: BoardProps) => {
   const [rows, setRows] = useState(new Array(numRows).fill(0).map(() => new Array(numColumns).fill(0)))
   const [leftMouseDown, setLeftMouseDown] = useState(false)
