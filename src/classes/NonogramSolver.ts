@@ -9,8 +9,8 @@ const getDomainTotal = (domain: Array<Array<Array<boolean>>>) => {
 export default class NonogramSolver {
   rowDomains: Array<Array<Array<boolean>>> = []
   colDomains: Array<Array<Array<boolean>>> = []
-  knownRows = new Set()
-  knownCols = new Set()
+  knownRows = new Set<number>()
+  knownCols = new Set<number>()
   knownIntersections = new Set()
   isSearchingRows = true
   rowLength: number
@@ -21,16 +21,16 @@ export default class NonogramSolver {
     this.colLength = colLength
     
     for (let i = 0; i < rowNums.length; i++) {
-      let domains = this.generateDomains(rowNums[i], rowLength)
+      const domains = this.generateDomains(rowNums[i], rowLength)
       this.rowDomains.push(domains)
     }
-    for (let i = 0; i < colNums.length; i++) {
-      let domains = this.generateDomains(colNums[i], colLength)
+    for (let i = 0; i < colNums.length; i++) { 
+      const domains = this.generateDomains(colNums[i], colLength)
       this.colDomains.push(domains)
     }
   }
   
-  generateDomainHelper(nums: Array<number>, domain: Array<any>, row: Array<boolean>, lastStart: number, lastNum: number, index: number, sum: number, size: number) {
+  generateDomainHelper(nums: Array<number>, domain: Array<Array<boolean>>, row: Array<boolean>, lastStart: number, lastNum: number, index: number, sum: number, size: number) {
     if (sum === 0) {return domain.push(row)}
     sum -= nums[index]
 
@@ -41,7 +41,7 @@ export default class NonogramSolver {
     if (start === end) {end += 1}
 
     for (let i = start; i < end; i++) {
-      let row_copy = [...row]
+      const row_copy = [...row]
       for (let j = 0; j < nums[index]; j++) {
         row_copy[i + j] = true
       }
@@ -49,8 +49,8 @@ export default class NonogramSolver {
     }
   }
 
-  generateDomains(nums: Array<number>, size: number) {
-    let domain: Array<any> = []
+  generateDomains(nums: Array<number>, size: number) { 
+    const domain: Array<Array<boolean>> = []
     const reducer = (previousValue: number, currentValue: number) => previousValue + currentValue
     this.generateDomainHelper(nums, domain, new Array(size).fill(false), -1, -1, 0, nums.reduce(reducer), size)
     return domain
@@ -58,7 +58,7 @@ export default class NonogramSolver {
 
   reduceNeighborDomains(knownDomain: Array<boolean>, unknownDomains: Array<Array<Array<boolean>>>, index: number) {
     for (let i = 0; i < knownDomain.length; i++) {
-      let value = knownDomain[i]
+      const value = knownDomain[i]
       if (!value && unknownDomains[i].length > 1 && !this.knownIntersections.has([this.isSearchingRows, index, i])) {
         for (let j = unknownDomains[i].length - 1; j >= 0; j--) {
           if (unknownDomains[i][j][index]) {
@@ -79,7 +79,7 @@ export default class NonogramSolver {
   }
 
   getDomainIntersections(domain: Array<Array<boolean>>, index: number) {
-    let intersects: any = []
+    const intersects: Array<[number, boolean]> = []
     for (let i = 0; i < domain[0].length; i++) {
       if (!this.knownIntersections.has([this.isSearchingRows, index, i])) {
         let allTrue = true
@@ -96,7 +96,7 @@ export default class NonogramSolver {
     return intersects
   }
 
-  reduceDomains(domainsA: Array<Array<Array<boolean>>>, knownDomainsA: any, domainsB: Array<Array<Array<boolean>>>) {
+  reduceDomains(domainsA: Array<Array<Array<boolean>>>, knownDomainsA: Set<number>, domainsB: Array<Array<Array<boolean>>>) {
     for (let i = 0; i < domainsA.length; i++) {
       if (!knownDomainsA.has(i)) {
         if (domainsA[i].length === 1) {
@@ -104,9 +104,9 @@ export default class NonogramSolver {
           knownDomainsA.add(i)
         }
 
-        let intersects = this.getDomainIntersections(domainsA[i], i)
+        const intersects = this.getDomainIntersections(domainsA[i], i)
         for (let j = 0; j < intersects.length; j++) {
-          let intersect = intersects[j]
+          const intersect = intersects[j]
           this.reduceDomain(domainsB[intersect[0]], i, intersect[1])
           this.knownIntersections.add([this.isSearchingRows, i, intersect[0]])
         }
@@ -115,9 +115,9 @@ export default class NonogramSolver {
   }
 
   solve() {
-    let startTime = performance.now()
+    const startTime = performance.now()
     while (this.knownRows.size !== this.rowLength && this.knownCols.size !== this.colLength) {
-      let before = getDomainTotal(this.rowDomains) + getDomainTotal(this.colDomains)
+      const before = getDomainTotal(this.rowDomains) + getDomainTotal(this.colDomains)
       this.reduceDomains(this.rowDomains, this.knownRows, this.colDomains)
       this.isSearchingRows = !this.isSearchingRows
 
@@ -129,7 +129,7 @@ export default class NonogramSolver {
         return false
       }
     }
-    let endTime = performance.now()
+    const endTime = performance.now()
     console.log(endTime - startTime)
     return true
   }
