@@ -1,19 +1,23 @@
 import { useState, useEffect } from "react"
+import NonogramSolver from "../../classes/NonogramSolver"
 import Menu from "../Menu"
 import Row from "../Row"
-import setRowsColumns from "./effects"
+import createNums from "./effects"
 
 const Board = ({numRows, numColumns}: BoardProps) => {
   const [rows, setRows] = useState(new Array(numRows).fill(0).map(() => new Array(numColumns).fill(0)))
   const [leftMouseDown, setLeftMouseDown] = useState(false)
   const [rightMouseDown, setRightMouseDown] = useState(false)
-
   const [rowNums, setRowNums] = useState<Array<Array<number>>>([[]])
   const [columnNums, setColumnNums] = useState<Array<Array<number>>>([[]])
-  const windowSize: Size = useWindowSize();
+  const windowSize: Size = useWindowSize()
 
   useEffect(() => {
-    setRowsColumns(setRowNums, setColumnNums, numRows, numColumns)
+    const {newRowNums, newColNums} = createNums(numRows, numColumns)
+    setRowNums(newRowNums)
+    setColumnNums(newColNums)
+    const solver = new NonogramSolver(newRowNums, newColNums, numColumns, numRows)
+    solver.solve()
   }, [])
 
   function useWindowSize(): Size {

@@ -57,22 +57,17 @@ const calcCols: (rows: BoardRowData, numRows: number, numColumns: number) => Arr
   return newColNums
 }
 
-const setRowsColumns: (
-  setRowNums: (newVal: Array<Array<number>>) => void, 
-  setColumnNums: (newVal: Array<Array<number>>) => void,
+const createNums: (
   numRows: number,
   numColumns: number,
-) => void = (
-  setRowNums,
-  setColumnNums,
+) => RowColNums = (
   numRows,
   numColumns,
 ) => {
   const { newRows, newRowNums } = calcRows(numRows, numColumns)
   const newColNums = calcCols({ newRows, newRowNums }, numRows, numColumns)
   
-  setRowNums(newRowNums)
-  setColumnNums(newColNums)
+  return {newRowNums, newColNums}
 }
 
-export default setRowsColumns
+export default createNums

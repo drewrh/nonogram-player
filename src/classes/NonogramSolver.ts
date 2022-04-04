@@ -130,7 +130,7 @@ export default class NonogramSolver {
       }
     }
     const endTime = performance.now()
-    console.log(endTime - startTime)
+    console.log(`Time to solve: ${endTime - startTime} seconds`)
     return true
   }
 }
