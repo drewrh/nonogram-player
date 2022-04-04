@@ -10,7 +10,7 @@ const Board = ({numRows, numColumns}: BoardProps) => {
 
   const [rowNums, setRowNums] = useState<Array<Array<number>>>([[]])
   const [columnNums, setColumnNums] = useState<Array<Array<number>>>([[]])
-  const size: Size = useWindowSize();
+  const windowSize: Size = useWindowSize();
 
   useEffect(() => {
     setRowsColumns(setRowNums, setColumnNums, numRows, numColumns)
@@ -46,7 +46,7 @@ const Board = ({numRows, numColumns}: BoardProps) => {
     } else {
       document.documentElement.style.setProperty('--square-size', row + 'px');
     }
-  }, [size, numRows, numColumns])
+  }, [windowSize, numRows, numColumns])
 
   useEffect(() => {
     const newRows = [...rows]
