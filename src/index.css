@@ -39,7 +39,8 @@ body {
 }
 
 .menu-container {
-  height: 100%;
+  /* Hack to get menu to not flash on refresh */
+  aspect-ratio: 1.52341920375 / 1;
 }
 
 .menu {
@@ -150,7 +151,6 @@ body {
 .row-nums {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   width: 100%;
 }
 
