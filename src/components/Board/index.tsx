@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useLayoutEffect } from "react"
 import NonogramSolver from "../../classes/NonogramSolver"
 import Menu from "../Menu"
 import Row from "../Row"
@@ -12,12 +12,17 @@ const Board = ({numRows, numColumns}: BoardProps) => {
   const [columnNums, setColumnNums] = useState<Array<Array<number>>>([[]])
   const windowSize: Size = useWindowSize()
 
+  useLayoutEffect(() => {
+    document.documentElement.style.setProperty('--square-size', calcSquareSize() + 'px');
+  })
+
   useEffect(() => {
     const {newRowNums, newColNums} = createNums(numRows, numColumns)
     setRowNums(newRowNums)
     setColumnNums(newColNums)
     const solver = new NonogramSolver(newRowNums, newColNums, numColumns, numRows)
-    solver.solve()
+    const solution = solver.solve()
+    console.log("Solution:", solution)
   }, [])
 
   function useWindowSize(): Size {
@@ -41,15 +46,15 @@ const Board = ({numRows, numColumns}: BoardProps) => {
     return windowSize
   }
 
-  useEffect(() => {
+  const calcSquareSize: () => number = () => {
     const col = (0.9 * window.innerWidth - Math.min(0.3 * window.innerHeight, 0.3 * window.innerWidth)) / (rows[0].length)
     const row = (0.9 * window.innerHeight - Math.min(0.2 * window.innerHeight, 0.2 * window.innerWidth)) / (rows.length)
 
-    if (col < row) {
-      document.documentElement.style.setProperty('--square-size', col + 'px');
-    } else {
-      document.documentElement.style.setProperty('--square-size', row + 'px');
-    }
+    return col < row ? col : row
+  }
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--square-size', calcSquareSize() + 'px');
   }, [windowSize, numRows, numColumns])
 
   useEffect(() => {
@@ -118,7 +123,7 @@ const Board = ({numRows, numColumns}: BoardProps) => {
     <div className="board-nums">
       <div className="row-nums">
         <div className="menu-container">
-          <Menu />
+          <Menu/>
         </div>
         <div>
           {rowNums.map((row, i) => (
@@ -138,7 +143,7 @@ const Board = ({numRows, numColumns}: BoardProps) => {
         </div>
         <div className="board">
           {rows.map((row, index) => (
-            <Row key={index} row={row} rowIndex={index} handleInput={handleInput} onHover={onHover} onMouseUp={onMouseUp} />
+            <Row key={index} row={row} rowIndex={index} handleInput={handleInput} onMouseOver={onHover} onMouseUp={onMouseUp} />
           ))}
         </div>
       </div>
