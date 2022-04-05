@@ -125,12 +125,11 @@ export default class NonogramSolver {
       this.isSearchingRows = !this.isSearchingRows
 
       if (before === getDomainTotal(this.rowDomains) + getDomainTotal(this.colDomains)) {
-        console.log("Unsolvable")
         return false
       }
     }
     const endTime = performance.now()
-    console.log(`Time to solve: ${endTime - startTime} seconds`)
+    console.log(`Time to solve: ${endTime - startTime} milliseconds`)
     const solution = []
     for (const row of this.rowDomains) {
       solution.push(row[0])
