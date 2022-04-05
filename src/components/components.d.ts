@@ -14,7 +14,7 @@ type RowProps = {
   row: Array<number>,
   rowIndex: number,
   handleInput: (button: number, row : number, column : number) => void,
-  onHover: (row : number, column : number) => void,
+  onMouseOver: (row : number, column : number) => void,
   onMouseUp: () => void
 }
 
