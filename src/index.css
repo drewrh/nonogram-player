@@ -182,3 +182,7 @@ body {
   min-width: calc(var(--square-size) / 2.5);
   text-align: center;
 }
+
+.menu-controls {
+  display: flex;
+}

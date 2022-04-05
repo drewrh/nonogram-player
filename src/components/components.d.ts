@@ -10,7 +10,13 @@ interface ControlsProps {
   changeNumColumns: any;
 }
 
-type RowProps = {
+interface Menu {
+  emptyBoard: () => void,
+  newBoard: () => void,
+  time: string
+}
+
+interface RowProps {
   row: Array<number>,
   rowIndex: number,
   handleInput: (button: number, row : number, column : number) => void,

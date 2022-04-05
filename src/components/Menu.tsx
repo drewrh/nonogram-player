@@ -1,25 +1,20 @@
-import { useStopwatch } from 'react-timer-hook'
+import { faArrowsRotate, faTrash } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-const Menu = () => {
-  const {
-    seconds,
-    minutes,
-    hours,
-    days,
-    isRunning,
-    start,
-    pause,
-    reset,
-  } = useStopwatch({ autoStart: true });
-
+const Menu = ({emptyBoard, newBoard, time}: Menu) => {
+  
   return (
     <div className="menu">
       <div className="title">
         PICROSS
       </div>
       <div className="clock">
-        {hours.toLocaleString('en-US', {minimumIntegerDigits: 2})}:{minutes.toLocaleString('en-US', {minimumIntegerDigits: 2})}:{seconds.toLocaleString('en-US', {minimumIntegerDigits: 2})}
+        {time}
       </div>
+      <div className="menu-controls">
+    <FontAwesomeIcon icon={faTrash} onClick={() => {emptyBoard()}} />
+    <FontAwesomeIcon icon={faArrowsRotate} onClick={() => {newBoard()}} />
+  </div>
     </div>
   )
 }

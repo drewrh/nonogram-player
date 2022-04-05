@@ -1,4 +1,5 @@
 import { useState, useEffect, useLayoutEffect } from "react"
+import { useStopwatch } from 'react-timer-hook'
 import NonogramSolver from "../../classes/NonogramSolver"
 import Menu from "../Menu"
 import Row from "../Row"
@@ -11,19 +12,45 @@ const Board = ({numRows, numColumns}: BoardProps) => {
   const [rowNums, setRowNums] = useState<Array<Array<number>>>([[]])
   const [columnNums, setColumnNums] = useState<Array<Array<number>>>([[]])
   const windowSize: Size = useWindowSize()
+  const {
+    seconds,
+    minutes,
+    hours,
+    start,
+    pause,
+    reset: resetStopwatch,
+  } = useStopwatch({ autoStart: true });
 
   useLayoutEffect(() => {
     document.documentElement.style.setProperty('--square-size', calcSquareSize() + 'px');
   })
 
   useEffect(() => {
-    const {newRowNums, newColNums} = createNums(numRows, numColumns)
-    setRowNums(newRowNums)
-    setColumnNums(newColNums)
-    const solver = new NonogramSolver(newRowNums, newColNums, numColumns, numRows)
-    const solution = solver.solve()
-    console.log("Solution:", solution)
+    const {rowNums, colNums} = generateSolvablePuzzle(numRows, numColumns)
+    setRowNums(rowNums)
+    setColumnNums(colNums)
   }, [])
+
+  const generateSolvablePuzzle = (numRows: number, numColumns: number) => {
+    const {newRowNums, newColNums} = createNums(numRows, numColumns)
+    let rowNums = newRowNums
+    let colNums = newColNums
+    let solver = new NonogramSolver(newRowNums, newColNums, numColumns, numRows)
+    let solution = solver.solve()
+    let count = 1
+    while (!solution) {
+      const {newRowNums, newColNums} = createNums(numRows, numColumns)
+      rowNums = newRowNums
+      colNums = newColNums
+      solver = new NonogramSolver(newRowNums, newColNums, numColumns, numRows)
+      solution = solver.solve()
+      count++
+    }
+    console.log(solution)
+    console.log(`Total puzzles generated: ${count}`)
+    return {rowNums, colNums}
+  }
+
 
   function useWindowSize(): Size {
     const [windowSize, setWindowSize] = useState<Size>({
@@ -119,11 +146,27 @@ const Board = ({numRows, numColumns}: BoardProps) => {
     }
   }
 
+  const emptyBoard = () => {
+    setRows(new Array(numRows).fill(0).map(() => new Array(numColumns).fill(0)))
+  }
+
+  const newBoard = () => {
+    emptyBoard()
+    const {rowNums, colNums} = generateSolvablePuzzle(numRows, numColumns)
+    setRowNums(rowNums)
+    setColumnNums(colNums)
+    resetStopwatch()
+  }
+
+  const convertTime = (time: number) => {
+    return time.toLocaleString('en-US', {minimumIntegerDigits: 2})
+  }
+
   return (
     <div className="board-nums">
       <div className="row-nums">
         <div className="menu-container">
-          <Menu/>
+          <Menu emptyBoard={emptyBoard} newBoard={newBoard} time={`${convertTime(hours)}:${convertTime(minutes)}:${convertTime(seconds)}`}/>
         </div>
         <div>
           {rowNums.map((row, i) => (
