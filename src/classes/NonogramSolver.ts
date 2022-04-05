@@ -131,6 +131,10 @@ export default class NonogramSolver {
     }
     const endTime = performance.now()
     console.log(`Time to solve: ${endTime - startTime} seconds`)
-    return true
+    const solution = []
+    for (const row of this.rowDomains) {
+      solution.push(row[0])
+    }
+    return solution
   }
 }
