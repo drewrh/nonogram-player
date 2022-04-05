@@ -45,8 +45,8 @@ body {
 
 .menu {
   background-color: rgb(51, 51, 51);
-  width: 95%;
-  height: 90%;
+  width: 97%;
+  height: 95%;
   display: flex;
   flex-direction: column;
   align-items: center;
