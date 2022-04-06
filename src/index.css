@@ -98,6 +98,24 @@ body {
   align-items: center;
 }
 
+.square-container:nth-child(5n) {
+  border-right: 4px solid limegreen;
+  border-radius: 0px;
+}
+
+.square-container:last-child {
+  border: none;
+}
+
+.row:nth-child(5n) {
+  border-bottom: 4px solid limegreen;
+  border-radius: 0px;
+}
+
+.row:last-child {
+  border: none;
+}
+
 .cell-fill {
   pointer-events: none;
   width: var(--square-size);

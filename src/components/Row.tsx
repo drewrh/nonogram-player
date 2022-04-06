@@ -4,7 +4,7 @@ const Row = ({row, rowIndex, handleInput, onMouseOver, onMouseUp} : RowProps) =>
   return (
     <div className="row">
       {row.map((square, columnIndex) => (
-        <div key={columnIndex} onContextMenu={(e)=> e.preventDefault()} onMouseDown={(e) => {handleInput(e.button, rowIndex, columnIndex)}} onMouseUp={() => {onMouseUp()}} onMouseOver={() => {onMouseOver(rowIndex, columnIndex)}}>
+        <div className="square-container" key={columnIndex} onContextMenu={(e)=> e.preventDefault()} onMouseDown={(e) => {handleInput(e.button, rowIndex, columnIndex)}} onMouseUp={() => {onMouseUp()}} onMouseOver={() => {onMouseOver(rowIndex, columnIndex)}}>
           <Square value={square} />
         </div>
       ))}
