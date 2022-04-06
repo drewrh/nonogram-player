@@ -88,9 +88,8 @@ export const generateSolvablePuzzle = (numRows: number, numColumns: number) => {
     solution = solver.solve()
     count++
   }
-  console.log(solution)
   console.log(`Total puzzles generated: ${count}`)
-  return {rowNums, colNums}
+  return {rowNums, colNums, solution}
 }
 
 export const useWindowSize: () => Size = () => {
@@ -119,4 +118,14 @@ export const convertTime = (hours: number, minutes: number, seconds: number) => 
     return time.toLocaleString('en-US', {minimumIntegerDigits: 2})
   }
   return `${locale(hours)}:${locale(minutes)}:${locale(seconds)}`
+}
+
+export const hasWon = (answer: Array<Array<number>>, solution: Array<Array<boolean>>) => {
+  if (answer[0] === undefined || answer[0][0] === undefined || solution[0] === undefined || solution[0][0] === undefined) {return false}
+  for (let i = 0; i < answer.length; i++) {
+    for (let j = 0; j < answer[i].length; j++) {
+      if ((answer[i][j] === 1 && solution[i][j] === false) || (answer[i][j] === 0 && solution[i][j] === true)) {return false}
+    }
+  }
+  return true
 }

@@ -2,14 +2,15 @@ import { useState, useEffect, useLayoutEffect } from "react"
 import { useStopwatch } from 'react-timer-hook'
 import Menu from "../Menu"
 import Row from "../Row"
-import { convertTime, generateSolvablePuzzle, useWindowSize } from "./effects"
+import { convertTime, generateSolvablePuzzle, hasWon, useWindowSize } from "./effects"
 
 const Board = ({numRows, numColumns}: BoardProps) => {
   const [rows, setRows] = useState(new Array(numRows).fill(0).map(() => new Array(numColumns).fill(0)))
-  const [leftMouseDown, setLeftMouseDown] = useState(false)
-  const [rightMouseDown, setRightMouseDown] = useState(false)
   const [rowNums, setRowNums] = useState<Array<Array<number>>>([[]])
   const [columnNums, setColumnNums] = useState<Array<Array<number>>>([[]])
+  const [solution, setSolution] = useState<Array<Array<boolean>>>([[]])
+  const [leftMouseDown, setLeftMouseDown] = useState(false)
+  const [rightMouseDown, setRightMouseDown] = useState(false)
   const windowSize: Size = useWindowSize()
   const {
     seconds,
@@ -22,17 +23,21 @@ const Board = ({numRows, numColumns}: BoardProps) => {
 
   useLayoutEffect(() => {
     document.documentElement.style.setProperty('--square-size', calcSquareSize() + 'px');
-    const {rowNums, colNums} = generateSolvablePuzzle(numRows, numColumns)
+    const {rowNums, colNums, solution} = generateSolvablePuzzle(numRows, numColumns)
     setRowNums(rowNums)
     setColumnNums(colNums)
+    setSolution(solution)
   }, [])
 
   const calcSquareSize: () => number = () => {
     const col = (0.9 * window.innerWidth - Math.min(0.3 * window.innerHeight, 0.3 * window.innerWidth)) / (rows[0].length)
     const row = (0.9 * window.innerHeight - Math.min(0.2 * window.innerHeight, 0.2 * window.innerWidth)) / (rows.length)
-
     return col < row ? col : row
   }
+
+  useEffect(() => {
+    if (hasWon(rows, solution)) {console.log("User wins")}
+  }, [rows])
 
   useEffect(() => {
     document.documentElement.style.setProperty('--square-size', calcSquareSize() + 'px');
@@ -106,9 +111,10 @@ const Board = ({numRows, numColumns}: BoardProps) => {
 
   const newBoard = () => {
     emptyBoard()
-    const {rowNums, colNums} = generateSolvablePuzzle(numRows, numColumns)
+    const {rowNums, colNums, solution} = generateSolvablePuzzle(numRows, numColumns)
     setRowNums(rowNums)
     setColumnNums(colNums)
+    setSolution(solution)
     resetStopwatch()
   }
 
