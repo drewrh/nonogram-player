@@ -5,8 +5,8 @@ import Row from "../Row"
 import { convertTime, generateSolvablePuzzle, hasWon, useWindowSize } from "./effects"
 
 const Board = () => {
-  const [numRows, setNumRows] = useState(5)
-  const [numCols, setNumCols] = useState(5)
+  const [numRows, setNumRows] = useState(10)
+  const [numCols, setNumCols] = useState(10)
   const [rows, setRows] = useState(new Array(numRows).fill(0).map(() => new Array(numCols).fill(0)))
   const [rowNums, setRowNums] = useState<Array<Array<number>>>([[]])
   const [columnNums, setColumnNums] = useState<Array<Array<number>>>([[]])
@@ -19,8 +19,7 @@ const Board = () => {
     seconds,
     minutes,
     hours,
-    start,
-    pause,
+    pause: pauseStopwatch,
     reset: resetStopwatch,
   } = useStopwatch({ autoStart: true });
 
@@ -40,6 +39,7 @@ const Board = () => {
 
   useEffect(() => {
     if (!playerWon && hasWon(rows, solution)) {
+      pauseStopwatch()
       setPlayerWon(true)
       console.log("User wins")
     }
