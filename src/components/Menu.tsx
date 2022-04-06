@@ -12,8 +12,8 @@ const Menu = ({emptyBoard, newBoard, time}: Menu) => {
         {time}
       </div>
       <div className="menu-controls">
-    <FontAwesomeIcon icon={faTrash} onClick={() => {emptyBoard()}} />
-    <FontAwesomeIcon icon={faArrowsRotate} onClick={() => {newBoard()}} />
+    <FontAwesomeIcon className="pointer" icon={faTrash} onClick={() => {emptyBoard()}} />
+    <FontAwesomeIcon className="pointer" icon={faArrowsRotate} onClick={() => {newBoard()}} />
   </div>
     </div>
   )

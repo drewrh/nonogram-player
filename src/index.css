@@ -185,3 +185,7 @@ body {
 .menu-controls {
   display: flex;
 }
+
+.pointer {
+  cursor: pointer;
+}
