@@ -39,8 +39,7 @@ body {
 }
 
 .menu-container {
-  /* Hack to get menu to not flash on refresh */
-  aspect-ratio: 1.52341920375 / 1;
+  height: 100%;
 }
 
 .menu {

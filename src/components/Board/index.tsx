@@ -1,9 +1,8 @@
 import { useState, useEffect, useLayoutEffect } from "react"
 import { useStopwatch } from 'react-timer-hook'
-import NonogramSolver from "../../classes/NonogramSolver"
 import Menu from "../Menu"
 import Row from "../Row"
-import createNums from "./effects"
+import { convertTime, generateSolvablePuzzle, useWindowSize } from "./effects"
 
 const Board = ({numRows, numColumns}: BoardProps) => {
   const [rows, setRows] = useState(new Array(numRows).fill(0).map(() => new Array(numColumns).fill(0)))
@@ -23,55 +22,10 @@ const Board = ({numRows, numColumns}: BoardProps) => {
 
   useLayoutEffect(() => {
     document.documentElement.style.setProperty('--square-size', calcSquareSize() + 'px');
-  })
-
-  useEffect(() => {
     const {rowNums, colNums} = generateSolvablePuzzle(numRows, numColumns)
     setRowNums(rowNums)
     setColumnNums(colNums)
   }, [])
-
-  const generateSolvablePuzzle = (numRows: number, numColumns: number) => {
-    const {newRowNums, newColNums} = createNums(numRows, numColumns)
-    let rowNums = newRowNums
-    let colNums = newColNums
-    let solver = new NonogramSolver(newRowNums, newColNums, numColumns, numRows)
-    let solution = solver.solve()
-    let count = 1
-    while (!solution) {
-      const {newRowNums, newColNums} = createNums(numRows, numColumns)
-      rowNums = newRowNums
-      colNums = newColNums
-      solver = new NonogramSolver(newRowNums, newColNums, numColumns, numRows)
-      solution = solver.solve()
-      count++
-    }
-    console.log(solution)
-    console.log(`Total puzzles generated: ${count}`)
-    return {rowNums, colNums}
-  }
-
-
-  function useWindowSize(): Size {
-    const [windowSize, setWindowSize] = useState<Size>({
-      width: undefined,
-      height: undefined,
-    })
-
-    useEffect(() => {
-      function handleResize() {
-        setWindowSize({
-          width: window.innerWidth,
-          height: window.innerHeight,
-        })
-      }
-      window.addEventListener("resize", handleResize)
-      handleResize()
-      return () => window.removeEventListener("resize", handleResize)
-    }, [])
-
-    return windowSize
-  }
 
   const calcSquareSize: () => number = () => {
     const col = (0.9 * window.innerWidth - Math.min(0.3 * window.innerHeight, 0.3 * window.innerWidth)) / (rows[0].length)
@@ -158,15 +112,11 @@ const Board = ({numRows, numColumns}: BoardProps) => {
     resetStopwatch()
   }
 
-  const convertTime = (time: number) => {
-    return time.toLocaleString('en-US', {minimumIntegerDigits: 2})
-  }
-
   return (
     <div className="board-nums">
       <div className="row-nums">
         <div className="menu-container">
-          <Menu emptyBoard={emptyBoard} newBoard={newBoard} time={`${convertTime(hours)}:${convertTime(minutes)}:${convertTime(seconds)}`}/>
+          <Menu emptyBoard={emptyBoard} newBoard={newBoard} time={convertTime(hours, minutes, seconds)}/>
         </div>
         <div>
           {rowNums.map((row, i) => (

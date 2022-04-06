@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react"
+import NonogramSolver from "../../classes/NonogramSolver"
+
 const calcRows: (numRows: number, numColumns: number) => BoardRowData = (numRows, numColumns) => {
   const newRowNums = []
   const newRows: Array<Array<number>> = []
@@ -8,7 +11,7 @@ const calcRows: (numRows: number, numColumns: number) => BoardRowData = (numRows
     let count = 0
 
     for (let j = 0; j < numColumns; j++) {
-      if (Math.random() < 0.5) {
+      if (Math.random() < 0.6) {
         count++
         randomRow.push(1)
       } else {
@@ -57,7 +60,7 @@ const calcCols: (rows: BoardRowData, numRows: number, numColumns: number) => Arr
   return newColNums
 }
 
-const createNums: (
+export const createNums: (
   numRows: number,
   numColumns: number,
 ) => RowColNums = (
@@ -70,4 +73,50 @@ const createNums: (
   return {newRowNums, newColNums}
 }
 
-export default createNums
+export const generateSolvablePuzzle = (numRows: number, numColumns: number) => {
+  const {newRowNums, newColNums} = createNums(numRows, numColumns)
+  let rowNums = newRowNums
+  let colNums = newColNums
+  let solver = new NonogramSolver(newRowNums, newColNums, numColumns, numRows)
+  let solution = solver.solve()
+  let count = 1
+  while (!solution) {
+    const {newRowNums, newColNums} = createNums(numRows, numColumns)
+    rowNums = newRowNums
+    colNums = newColNums
+    solver = new NonogramSolver(newRowNums, newColNums, numColumns, numRows)
+    solution = solver.solve()
+    count++
+  }
+  console.log(solution)
+  console.log(`Total puzzles generated: ${count}`)
+  return {rowNums, colNums}
+}
+
+export const useWindowSize: () => Size = () => {
+  const [windowSize, setWindowSize] = useState<Size>({
+    width: undefined,
+    height: undefined,
+  })
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      })
+    }
+    window.addEventListener("resize", handleResize)
+    handleResize()
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
+
+  return windowSize
+}
+
+export const convertTime = (hours: number, minutes: number, seconds: number) => {
+  const locale = (time: number) => {
+    return time.toLocaleString('en-US', {minimumIntegerDigits: 2})
+  }
+  return `${locale(hours)}:${locale(minutes)}:${locale(seconds)}`
+}
