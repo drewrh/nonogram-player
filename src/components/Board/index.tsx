@@ -4,11 +4,14 @@ import Menu from "../Menu"
 import Row from "../Row"
 import { convertTime, generateSolvablePuzzle, hasWon, useWindowSize } from "./effects"
 
-const Board = ({numRows, numColumns}: BoardProps) => {
-  const [rows, setRows] = useState(new Array(numRows).fill(0).map(() => new Array(numColumns).fill(0)))
+const Board = () => {
+  const [numRows, setNumRows] = useState(5)
+  const [numCols, setNumCols] = useState(5)
+  const [rows, setRows] = useState(new Array(numRows).fill(0).map(() => new Array(numCols).fill(0)))
   const [rowNums, setRowNums] = useState<Array<Array<number>>>([[]])
   const [columnNums, setColumnNums] = useState<Array<Array<number>>>([[]])
   const [solution, setSolution] = useState<Array<Array<boolean>>>([[]])
+  const [playerWon, setPlayerWon] = useState(false)
   const [leftMouseDown, setLeftMouseDown] = useState(false)
   const [rightMouseDown, setRightMouseDown] = useState(false)
   const windowSize: Size = useWindowSize()
@@ -23,7 +26,7 @@ const Board = ({numRows, numColumns}: BoardProps) => {
 
   useLayoutEffect(() => {
     document.documentElement.style.setProperty('--square-size', calcSquareSize() + 'px');
-    const {rowNums, colNums, solution} = generateSolvablePuzzle(numRows, numColumns)
+    const {rowNums, colNums, solution} = generateSolvablePuzzle(numRows, numCols)
     setRowNums(rowNums)
     setColumnNums(colNums)
     setSolution(solution)
@@ -36,18 +39,21 @@ const Board = ({numRows, numColumns}: BoardProps) => {
   }
 
   useEffect(() => {
-    if (hasWon(rows, solution)) {console.log("User wins")}
+    if (!playerWon && hasWon(rows, solution)) {
+      setPlayerWon(true)
+      console.log("User wins")
+    }
   }, [rows])
 
   useEffect(() => {
     document.documentElement.style.setProperty('--square-size', calcSquareSize() + 'px');
-  }, [windowSize, numRows, numColumns])
+  }, [windowSize, numRows, numCols])
 
   useEffect(() => {
     const newRows = [...rows]
     if (numRows > rows.length) {
       rowNums.push([])
-      newRows.push(new Array(numColumns).fill(0))
+      newRows.push(new Array(numCols).fill(0))
     } else if (numRows < rows.length) {
       newRows.pop()
       rowNums.pop()
@@ -57,15 +63,15 @@ const Board = ({numRows, numColumns}: BoardProps) => {
 
   useEffect(() => {
     const newRows = [...rows]
-    if (numColumns > rows[0].length) {
+    if (numCols > rows[0].length) {
       columnNums.push([])
       newRows.forEach(row => row.push(0))
-    } else if (numColumns < rows[0].length) {
+    } else if (numCols < rows[0].length) {
       newRows.forEach(row => row.pop())
       columnNums.pop()
     }
     setRows(newRows)
-  }, [numColumns])
+  }, [numCols])
 
   const handleInput = (button: number, rowIndex: number, columnIndex: number) => {    
     if (button === 0) {
@@ -106,12 +112,12 @@ const Board = ({numRows, numColumns}: BoardProps) => {
   }
 
   const emptyBoard = () => {
-    setRows(new Array(numRows).fill(0).map(() => new Array(numColumns).fill(0)))
+    setRows(new Array(numRows).fill(0).map(() => new Array(numCols).fill(0)))
   }
 
   const newBoard = () => {
     emptyBoard()
-    const {rowNums, colNums, solution} = generateSolvablePuzzle(numRows, numColumns)
+    const {rowNums, colNums, solution} = generateSolvablePuzzle(numRows, numCols)
     setRowNums(rowNums)
     setColumnNums(colNums)
     setSolution(solution)
